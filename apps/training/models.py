@@ -12,9 +12,10 @@ class BasePersonalTraining(models.Model):
         blank=True,
     )
     
-    duration = models.DurationField(
+    duration = models.CharField(
         verbose_name='Duración',
         help_text='Duración del entrenamiento.',
+        max_length=50,
         null=True,
         blank=True,
     )
@@ -43,8 +44,12 @@ class OnlineTraining(BasePersonalTraining):
     
     def __str__(self):        
         if self.week:
-            return f' {self.client.full_name} | {self.month}.{self.year} | semana {self.week}'
-        return f' {self.client.full_name} | {self.month}.{self.year}'
+            return f' {self.client.full_name} | {self.month}/{self.year} | semana {self.week}'
+        return f' {self.client.full_name} | {self.month}/{self.year}'
+    
+    @property
+    def exercises_count(self):
+        return self.exercises.count()
     
 
 class GroupTraining(models.Model):

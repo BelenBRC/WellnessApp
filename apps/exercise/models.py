@@ -109,9 +109,10 @@ class ExerciseSet(models.Model):
         blank=True,
     )
     
-    rest = models.DurationField(
+    rest = models.CharField(
         verbose_name='Descanso',
         help_text='Tiempo de descanso entre series.',
+        max_length=50,
         null=True,
         blank=True,
     )
@@ -137,3 +138,31 @@ class ExerciseSet(models.Model):
         if self.series_per_repetitions:
             return f'{self.exercise.name} | {self.series_per_repetitions}'
         return self.exercise.name
+    
+class OnlineExerciseSet(ExerciseSet):
+    online_training = models.ForeignKey(
+        'training.OnlineTraining', 
+        on_delete=models.CASCADE, 
+        related_name='exercises',
+        verbose_name='Entrenamiento online',
+        help_text='Entrenamiento online al que pertenece la serie.',
+    )
+    
+class GroupExerciseSet(ExerciseSet):
+    client = models.ForeignKey(
+        'client.Client', 
+        on_delete=models.CASCADE, 
+        related_name='group_sets',
+        verbose_name='Cliente',
+        help_text='Cliente del grupo al que pertenece la serie.',
+        null=True,
+    )
+    
+    group_training = models.ForeignKey(
+        'training.GroupTraining', 
+        on_delete=models.CASCADE, 
+        related_name='exercises',
+        verbose_name='Entrenamiento en grupo',
+        help_text='Entrenamiento en grupo al que pertenece la serie.',
+        null=True,
+    )
