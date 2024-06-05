@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'apps.client',
     'apps.coach',
     'apps.training',
+    'apps.exercise',
 ]
 
 MIDDLEWARE = [
