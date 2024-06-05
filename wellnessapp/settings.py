@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.client',
     'apps.coach',
+    'apps.training',
 ]
 
 MIDDLEWARE = [
