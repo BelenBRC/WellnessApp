@@ -16,8 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+
+from wellnessapp import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('login/', admin.site.urls),
 ]
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/5.0/howto/static-files/
+urlpatterns += static(settings.STATIC_URL)

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'apps.coach',
     'apps.training',
     'apps.exercise',
+    'apps.reports',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +121,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+    '/var/www/static/',
+    BASE_DIR / 'static' / 'reports',
+    '/var/www/static/reports/'
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
