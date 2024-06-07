@@ -22,6 +22,7 @@ from wellnessapp import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', admin.site.urls),
     #path('login/', admin.site.urls),
 ]
 

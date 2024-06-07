@@ -53,6 +53,15 @@ class OnlineTraining(BasePersonalTraining):
     
 
 class GroupTraining(models.Model):
+    group_coach = models.ForeignKey(
+        'coach.Coach', 
+        on_delete=models.CASCADE, 
+        related_name='named_groups', 
+        verbose_name='Entrenador',
+        help_text='Entrenador del grupo.',
+        default=1,
+    )
+    
     #Optional named group
     named_group = models.ForeignKey(
         'training.NamedGroup', 
@@ -90,7 +99,8 @@ class GroupTraining(models.Model):
         if self.named_group:
             return f' {self.named_group} | {self.date} | {self.hour}:00 '
         return f' {self.date} | {self.hour}:00'
-        
+    
+    @property    
     def number_of_clients(self):
         number = self.components.count()
         if self.named_group:
@@ -98,6 +108,7 @@ class GroupTraining(models.Model):
         
         return number
         
+    @property
     def clients_list(self):
         # If the group is named, the clients are the clients that are part of the named group plus the clients that are part of the group
         clients = list(self.components.all())
@@ -111,7 +122,7 @@ class GroupTraining(models.Model):
         return [client for client in clients]
             
     
-class NamedGroup(models.Model):
+class NamedGroup(models.Model):    
     name = models.CharField(
         verbose_name='Nombre',
         help_text='Nombre del grupo.',

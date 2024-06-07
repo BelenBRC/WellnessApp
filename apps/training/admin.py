@@ -1,8 +1,26 @@
+from typing import Any
 from django.contrib import admin
 from django import forms
 from django.core.exceptions import ValidationError
 from apps.exercise.models import GroupExerciseSet, OnlineExerciseSet
 from apps.training.models import GroupTraining, NamedGroup, OnlineTraining
+
+class ClientListFilter(admin.SimpleListFilter):
+    title = 'Cliente'
+    parameter_name = 'client'
+    
+    def lookups(self, request, model_admin):
+        clients = set([training.client for training in OnlineTraining.objects.all()])
+        if request.user.is_superuser:
+            return [(client.id, client.full_name) for client in clients]
+        else:
+            # Select only clients of the coach
+            return [(client.id, client.full_name) for client in clients if client.coach == request.user.coach]
+    
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(client=self.value())
+        return queryset
 
 class OnlineExerciseSetInline(admin.TabularInline):
     model = OnlineExerciseSet
@@ -21,7 +39,7 @@ class OnlineExerciseSetInline(admin.TabularInline):
 class OnlineTrainingAdmin(admin.ModelAdmin):
     inlines = [OnlineExerciseSetInline]
     list_display = ('client_display', 'year', 'month', 'week')
-    list_filter = ('client', 'year', 'month', 'week')
+    list_filter = (ClientListFilter, 'year', 'month', 'week')
     search_fields = ('client__full_name', 'year', 'month')
     ordering = ('client', 'year', 'month')
     
@@ -34,6 +52,14 @@ class OnlineTrainingAdmin(admin.ModelAdmin):
         if db_field.name == 'description':
             formfield.widget = forms.Textarea(attrs={'rows': 2})
         return formfield
+    
+    # Limit the results for coach view
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        # If not superuser, show only the ones of the coach
+        return qs.filter(client__coach=request.user.coach)
 
 class GroupTrainingAdminForm(forms.ModelForm):
     class Meta:
@@ -66,17 +92,33 @@ class GroupExerciseSetInline(admin.TabularInline):
 class GroupTrainingAdmin(admin.ModelAdmin):
     form = GroupTrainingAdminForm
     inlines = [GroupExerciseSetInline]
-    list_display = ('named_group', 'date', 'hour', 'number_of_clients_display', 'clients_list_display')
-    ordering = ('named_group', 'date', 'hour')
+    list_display = ('group_coach', 'named_group', 'date', 'hour', 'number_of_clients_display', 'clients_list_display')
+    ordering = ('date', 'hour', 'named_group')
+    list_filter = ('date', 'hour', 'named_group')
     search_fields = ('named_group__name', 'date', 'hour')
     
     def number_of_clients_display(self, obj):
-        return obj.number_of_clients()
+        return obj.number_of_clients
     number_of_clients_display.short_description = 'Nº clientes'
     
     def clients_list_display(self, obj):
-        return obj.clients_list()
+        return obj.clients_list
     clients_list_display.short_description = 'Clientes'
+    
+    # Limit the results for coach view
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        # If not superuser, show only the ones of the coach
+        return qs.filter(group_coach=request.user.coach)
+    
+class NamedGroupAdminForm(forms.ModelForm):
+    class Meta:
+        model = NamedGroup
+        fields = '__all__'
+        
+    
     
 class NamedGroupAdmin(admin.ModelAdmin):
     list_display = ('name', 'number_of_clients_display', 'clients_list_display')
