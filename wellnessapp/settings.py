@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.training',
     'apps.exercise',
     'apps.reports',
+    'apps.public',
 ]
 
 MIDDLEWARE = [
@@ -123,9 +124,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    '/var/www/static/',
     BASE_DIR / 'static' / 'reports',
-    '/var/www/static/reports/'
 ]
 
 # Default primary key field type

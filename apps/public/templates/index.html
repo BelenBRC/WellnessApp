@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Inicio
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Inicio</h1>
+        {% if user is not None %}
+            {# If the user is logged in, show a welcome message #}
+            <p>Bienvenido, {{ user.username }}.</p>
+            {# Button to logout #}
+            <a href="{% url 'logout' %}" class="btn btn-primary">Cerrar sesión</a>
+        {% else %}
+            {# If the user is not logged in, show a welcome message and a button to login #}
+            <p>Bienvenido a la página de inicio.</p>
+            {# Button to login #}
+            <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión</a>
+        {% endif %}
+    </div>
+{% endblock %}
