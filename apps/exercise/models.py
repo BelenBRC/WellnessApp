@@ -2,6 +2,10 @@ from django.db import models
 
 # Create your models here.
 class MuscularGroup(models.Model):
+    class Meta:
+        verbose_name = 'Grupo muscular'
+        verbose_name_plural = 'Grupos musculares'
+        
     name = models.CharField(
         verbose_name='Nombre',
         help_text='Nombre del grupo muscular.',
@@ -14,6 +18,10 @@ class MuscularGroup(models.Model):
     
     
 class Objective(models.Model):
+    class Meta:
+        verbose_name = 'Objetivo'
+        verbose_name_plural = 'Objetivos'
+        
     name = models.CharField(
         verbose_name='Nombre',
         help_text='Nombre del objetivo.',
@@ -26,6 +34,10 @@ class Objective(models.Model):
     
     
 class Exercise(models.Model):
+    class Meta:
+        verbose_name = 'Ejercicio'
+        verbose_name_plural = 'Ejercicios'
+        
     name = models.CharField(
         verbose_name='Nombre',
         help_text='Nombre del ejercicio.',
@@ -75,6 +87,10 @@ class Exercise(models.Model):
     
     
 class Method(models.Model):
+    class Meta:
+        verbose_name = 'Método de ejecución'
+        verbose_name_plural = 'Métodos de ejecución'
+        
     name = models.CharField(
         verbose_name='Nombre',
         help_text='Nombre del método.',

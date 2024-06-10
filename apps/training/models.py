@@ -21,6 +21,10 @@ class BasePersonalTraining(models.Model):
     )
 
 class OnlineTraining(BasePersonalTraining):
+    class Meta:
+        verbose_name = 'Entrenamiento online'
+        verbose_name_plural = 'Entrenamientos online'
+        
     year = models.PositiveSmallIntegerField(
         verbose_name='Año',
         help_text='Año del entrenamiento.',
@@ -53,6 +57,10 @@ class OnlineTraining(BasePersonalTraining):
     
 
 class GroupTraining(models.Model):
+    class Meta:
+        verbose_name = 'Entrenamiento en grupo'
+        verbose_name_plural = 'Entrenamientos en grupo'
+        
     group_coach = models.ForeignKey(
         'coach.Coach', 
         on_delete=models.CASCADE, 
@@ -122,7 +130,11 @@ class GroupTraining(models.Model):
         return [client for client in clients]
             
     
-class NamedGroup(models.Model):    
+class NamedGroup(models.Model):
+    class Meta:
+        verbose_name = 'Grupo nombrado'
+        verbose_name_plural = 'Grupos nombrados'
+          
     name = models.CharField(
         verbose_name='Nombre',
         help_text='Nombre del grupo.',

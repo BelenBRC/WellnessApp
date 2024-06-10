@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Coach(models.Model):
+    class Meta:
+        verbose_name = 'Entrenador'
+        verbose_name_plural = 'Entrenadores'
+        
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
     first_name = models.CharField(

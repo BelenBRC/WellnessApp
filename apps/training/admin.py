@@ -2,6 +2,8 @@ from typing import Any
 from django.contrib import admin
 from django import forms
 from django.core.exceptions import ValidationError
+from django.db.models.fields import Field
+from django.http.request import HttpRequest
 from apps.exercise.models import GroupExerciseSet, OnlineExerciseSet
 from apps.training.models import GroupTraining, NamedGroup, OnlineTraining
 
@@ -81,13 +83,23 @@ class GroupExerciseSetInline(admin.TabularInline):
     exclude = ['execution_method', 'observations']
     extra = 0
     
-    # Show only components of the group training in client field
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == 'client':    
-            group_training = request.resolver_match.kwargs.get('object_id')
-            group_training_instance = GroupTraining.objects.get(pk=group_training)
-            kwargs['queryset'] = group_training_instance.components.all()
+        # Show only components of the group training in client field if the instance is being modified
+        if request.resolver_match.kwargs.get('object_id'):
+            if db_field.name == 'client':    
+                group_training = request.resolver_match.kwargs.get('object_id')
+                group_training_instance = GroupTraining.objects.get(pk=group_training)
+                kwargs['queryset'] = group_training_instance.components.all()
+
         return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        print (db_field.name)
+        if db_field.name == 'hour':
+            formfield.widget = forms.Select(choices=[(hour, hour) for hour in range(6, 22)])
+            print (formfield.widget.choices)
+        return formfield
 
 class GroupTrainingAdmin(admin.ModelAdmin):
     form = GroupTrainingAdminForm
@@ -112,6 +124,20 @@ class GroupTrainingAdmin(admin.ModelAdmin):
             return qs
         # If not superuser, show only the ones of the coach
         return qs.filter(group_coach=request.user.coach)
+    
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):              
+        # If the request user is not superuser, show itself as the group coach
+        if not request.user.is_superuser:
+            if db_field.name == 'group_coach':
+                kwargs['initial'] = request.user.coach
+        
+        return super().formfield_for_foreignkey(db_field, request, **kwargs)
+    
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'hour':
+            formfield.widget = forms.Select(choices=[(hour, hour) for hour in range(6, 23)])
+        return formfield
     
 class NamedGroupAdminForm(forms.ModelForm):
     class Meta:

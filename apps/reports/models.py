@@ -26,6 +26,10 @@ def get_upload_to(instance, filename, side):
 
 # Create your models here.
 class Report(models.Model):
+    class Meta:
+        verbose_name = 'Reporte'
+        verbose_name_plural = 'Reportes'
+        
     client = models.ForeignKey(
         'client.Client', 
         on_delete=models.CASCADE, 

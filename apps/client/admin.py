@@ -1,6 +1,9 @@
 from collections.abc import Sequence
+from datetime import date
+from typing import Any
 from django import forms
 from django.contrib import admin
+from django.db.models.fields import Field
 from django.http.request import HttpRequest
 
 from apps.client.models import Client
@@ -15,7 +18,8 @@ class UserClientListFilter(admin.SimpleListFilter):
     def lookups(self, request, model_admin):
         users = set([client.user for client in Client.objects.all()])
         if request.user.is_superuser:
-            return [(user.id, user.username) for user in users]
+            # Show only clients with Client group
+            return [(user.id, user.username) for user in users if user.groups.filter(name='Client').exists()]
         else:
             # Select only clients of the coach
             return [(user.id, user.username) for user in users if user.client.coach == request.user.coach]
@@ -59,7 +63,7 @@ class ClientAdmin(admin.ModelAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
         if request.user.is_superuser:
-            return qs
+            return qs.filter(user__groups__name='Client')
         # If not superuser, show only clients of the coach
         return qs.filter(coach=request.user.coach)
     
@@ -69,5 +73,21 @@ class ClientAdmin(admin.ModelAdmin):
             return self.list_filter
         else:
             return ['city', UserClientListFilter]
-    
+        
+    # Formset change to limit the dropdown list to the clients of the coach
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'user':
+            # Show only the users with no client assigned and with Client group
+            formfield.queryset = formfield.queryset.filter(groups__name='Client')
+            formfield.queryset = formfield.queryset.exclude(client__isnull=False)
+            
+        # If coach user, set itself as coach
+        if db_field.name == 'coach' and not kwargs['request'].user.is_superuser:
+            formfield.initial = kwargs['request'].user.coach  
+            
+        # For city, show a select with spanish cities
+            
+        return formfield
+            
 admin.site.register(Client, ClientAdmin)
