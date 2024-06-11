@@ -1,13 +1,11 @@
 from collections.abc import Sequence
-from datetime import date
-from typing import Any
-from django import forms
-from django.contrib import admin
-from django.db.models.fields import Field
-from django.http.request import HttpRequest
+from django import forms # type: ignore
+from django.contrib import admin # type: ignore
+from django.http.request import HttpRequest # type: ignore
 
 from apps.client.models import Client
 from apps.reports.models import Report
+from apps.training.models import GroupTraining, OnlineTraining
 
 # Register your models here.
 
@@ -43,9 +41,32 @@ class ReportInline(admin.TabularInline):
             formfield.widget = forms.Textarea(attrs={'rows': 3, 'cols': 15})
         
         return formfield
+    
+class OnlineTrainingInline(admin.TabularInline):
+    model = OnlineTraining
+    extra = 0
+    # Order by latest created
+    ordering = ['-year', '-month', '-week']
+
+    # Smaller text area
+    def formfield_for_dbfield(self, db_field, **kwargs):
+        formfield = super().formfield_for_dbfield(db_field, **kwargs)
+        if db_field.name == 'description':
+            formfield.widget = forms.Textarea(attrs={'rows': 2, 'cols': 15})
+        
+        return formfield
+    
+class GroupTrainingInline(admin.TabularInline):
+    # If the client is part of components or named_group, show the group training
+    model = GroupTraining.components.through
+    extra = 0
+    # Mode read only
+    readonly_fields = ['grouptraining']
+    # Can't delete
+    can_delete = False
 
 class ClientAdmin(admin.ModelAdmin):
-    inlines = [ReportInline]
+    inlines = [ReportInline, OnlineTrainingInline, GroupTrainingInline]
     list_display = ['full_name_display', 'user', 'coach', 'birthdate', 'city', 'occupation', 'age_display']
     list_filter = ['coach', 'city', UserClientListFilter]
     search_fields = ['user__username', 'city', 'occupation']
@@ -87,6 +108,23 @@ class ClientAdmin(admin.ModelAdmin):
             formfield.initial = kwargs['request'].user.coach  
             
         # For city, show a select with spanish cities
+        # if db_field.name == 'city':
+        #     json_path = settings.STATIC_URL + 'jsons/spain.json'
+        #     with open(json_path) as file:
+        #         data = json.load(file)
+            
+        #     cities = []
+        #     for community in data:
+        #         for province in community['provinces']:
+        #             for town in province['towns']:
+        #                 cities.append(town['label'])
+                        
+        #     # Order the list
+        #     cities.sort()
+            
+        #     formfield.widget = forms.Select(choices=[(city, city) for city in cities])
+        #     # Allow search in the select
+        #     formfield.widget.attrs['class'] = 'select-search'
             
         return formfield
             

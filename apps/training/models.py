@@ -55,6 +55,12 @@ class OnlineTraining(BasePersonalTraining):
     def exercises_count(self):
         return self.exercises.count()
     
+    @property
+    def date(self):
+        if self.week:
+            return f'{self.month}/{self.year} | semana {self.week}'
+        return f'{self.month}/{self.year}'
+    
 
 class GroupTraining(models.Model):
     class Meta:
