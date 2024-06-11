@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} Inicio | {{ client }} {% endblock %}
+
+{% block content %}
+    <h2>Bienvenido, {{ client }}</h2>
+
+    <p>Este es tu espacio personal. Aquí podrás ver tus datos, tus pedidos y tus favoritos.</p>
+    <br>
+    <!-- Buttons to trainer detail, online trainings and reports -->
+    <a href="{% url 'user_detail' client.id %}"><button>Mis datos</button></a>
+    <a href="{% url 'coach' client.coach.id %}"><button>Mi entrenador</button></a>
+    <a href="{% url 'user_reports' client.id %}"><button>Mis reportes</button></a>
+    <a href="{% url 'user_online_trainings' client.id %}"><button>Mis entrenamientos</button></a>
+    <br>
+{% endblock content %}

@@ -12,6 +12,13 @@
             <p>Bienvenido, {{ user.username }}.</p>
             {# Button to logout #}
             <a href="{% url 'logout' %}" class="btn btn-primary">Cerrar sesión</a>
+            {# If the user is not Client, button to admin area #}
+            {% if user.is_staff %}
+                <a href="{% url 'admin:index' %}" class="btn btn-primary">Administración</a>
+            {# If the user is Client, button to personal area #}
+            {% else %}
+                <a href="{% url 'user_main_space' %}" class="btn btn-primary">Mi espacio</a>
+            {% endif %}
         {% else %}
             {# If the user is not logged in, show a welcome message and a button to login #}
             <p>Bienvenido a la página de inicio.</p>

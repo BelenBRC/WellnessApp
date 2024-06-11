@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %} {{ title }} | {{ client }} {% endblock %}
+
+{% block content %}
+    <h2>{{ title }}</h2>
+
+    <!-- User data -->
+    <p><strong>Nombre:</strong> {{ client.first_name }} {{ client.last_name }}</p>
+    <p><strong>Correo:</strong> {{ client.user.email }}</p>
+    <p><strong>Edad:</strong> {{ client.age }}</p>
+    <p><strong>Fecha de nacimiento:</strong> {{ client.birthdate }}</p>
+    <p><strong>Ocupación:</strong> {{ client.occupation }}</p>
+    <p><strong>Ciudad:</strong> {{ client.city }}</p>
+    
+    <br>
+    <!-- Buttons to trainer detail, online trainings and reports -->
+    <a href="{% url 'user_detail' client.id %}"><button>Mis datos</button></a>
+    <a href="{% url 'coach' client.coach.id %}"><button>Mi entrenador</button></a>
+    <a href="{% url 'user_reports' client.id %}"><button>Mis reportes</button></a>
+    <a href="{% url 'user_online_trainings' client.id %}"><button>Mis entrenamientos</button></a>
+    <br>
+{% endblock content %}

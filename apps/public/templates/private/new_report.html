@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <!-- Form with media files -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_div }}
+        <br>
+        <button type="submit">Registrar</button>
+    </form>
+    <p class="text-danger">{% if error %}{{ error }}{% endif %}</p>
+    <br>
+
+{% endblock content %}

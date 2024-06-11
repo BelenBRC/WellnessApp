@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %} {{ title }} | {{ coach }} {% endblock %}
+
+{% block content %}
+    <h2>{{ coach }}</h2>
+    
+    
+    <!-- Buttons to trainer detail, online trainings and reports -->
+    <a href="{% url 'user_detail' client.id %}"><button>Mis datos</button></a>
+    <a href="{% url 'coach' client.coach.id %}"><button>Mi entrenador</button></a>
+    <a href="{% url 'user_reports' client.id %}"><button>Mis reportes</button></a>
+    <a href="{% url 'user_online_trainings' client.id %}"><button>Mis entrenamientos</button></a>
+    <br>
+{% endblock content %}

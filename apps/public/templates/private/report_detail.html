@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %} {{ title }} | {{ client.name }} {% endblock %}
+
+{% block content %}
+    <h2>{{ title }}|{{ report }}</h2>
+
+    {% if report %}
+        <!-- Report data -->
+        <p><strong>Fecha:</strong> {{ report.date }}</p>
+        <p><strong>Peso:</strong> {{ report.weight }} kg</p>
+        <!-- 1-10 answers -->
+        <p><strong>Cumplimiento entrenamiento:</strong> {{ report.training_compliance }}</p>
+        <p><strong>Satisfacción entrenamiento:</strong> {{ report.training_satisfaction }}</p>
+        <p><strong>Cumplimiento dieta:</strong> {{ report.diet_compliance }}</p>
+        <p><strong>Satisfacción dieta:</strong> {{ report.diet_satisfaction }}</p>
+        <!-- Text answers -->
+        <p><strong>Cambios en la dieta:</strong> {{ report.diet_changes }}</p>
+        <p><strong>Observaciones entrenamiento:</strong> {{ report.training_comments }}</p>
+        <p><strong>Otras Observaciones:</strong> {{ report.comments }}</p>
+        <!-- Report image -->
+        {# Front picture #}
+        {% if report.front_picture %}
+            <p><strong>Foto frontal:</strong></p>
+            <img src="{{ report.front_picture.url }}" alt="Front picture" style="width: 50%; height: 50%;">
+        {% endif %}
+        {# Right side picture #}
+        {% if report.right_side_picture %}
+            <p><strong>Foto lateral derecha:</strong></p>
+            <img src="{{ report.right_side_picture.url }}" alt="Right side picture" style="width: 50%; height: 50%;">
+        {% endif %}
+        {# Left side picture #}
+        {% if report.left_side_picture %}
+            <p><strong>Foto lateral izquierda:</strong></p>
+            <img src="{{ report.left_side_picture.url }}" alt="Left side picture" style="width: 50%; height: 50%;">
+        {% endif %}
+    {% endif %}
+
+    <br>
+    <!-- Buttons to trainer detail, online trainings and reports -->
+    <a href="{% url 'user_detail' client.id %}"><button>Mis datos</button></a>
+    <a href="{% url 'coach' client.coach.id %}"><button>Mi entrenador</button></a>
+    <a href="{% url 'user_reports' client.id %}"><button>Mis reportes</button></a>
+    <a href="{% url 'user_online_trainings' client.id %}"><button>Mis entrenamientos</button></a>
+    <br>
+{% endblock content %}
