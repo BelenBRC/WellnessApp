@@ -14,15 +14,23 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include, path
-from django.conf.urls.static import static
+from django.contrib import admin # type: ignore
+from django.urls import include, path # type: ignore
+from django.conf.urls.static import static # type: ignore
 
 from wellnessapp import settings
+
+from apps.exercise.api.router import router 
+
+from rest_framework.documentation import include_docs_urls # type: ignore
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('apps.public.urls')),
+    
+    path('api/', include(router.urls)),
+    
+    path('docs/', include_docs_urls(title='Wellness API', public=False)),
 ]
 
 # Static files (CSS, JavaScript, Images)
