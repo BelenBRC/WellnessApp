@@ -1,11 +1,10 @@
 import datetime
-from typing import Any
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout # type: ignore
 from django.contrib.auth.decorators import login_required # type: ignore
 from django.db.models.base import Model as Model # type: ignore
-from django.shortcuts import get_object_or_404, redirect, render # type: ignore
+from django.shortcuts import redirect, render # type: ignore
 from django.utils.decorators import method_decorator # type: ignore
-from django.views.generic import DetailView, TemplateView # type: ignore
+from django.views.generic import TemplateView # type: ignore
 
 from apps.client.models import Client
 from apps.coach.models import Coach
@@ -13,19 +12,19 @@ from apps.public.forms.loginforms import ClientRegisterForm, CoachRegisterForm, 
 from apps.reports.forms import NewReportForm
 from apps.reports.models import Report
 
-class IndexView(TemplateView):
-    template_name = 'index.html'
+####################################################################################################
+def index(request):
+    # If user not authenticated, redirect to login
+    if not request.user.is_authenticated:
+        return redirect('login')
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # If the user is authenticated, add the user to the context
-        if self.request.user.is_authenticated:
-            context['user'] = self.request.user
-        else:
-            context['user'] = None
-        
-        context['title'] = 'Home'
-        return context
+    # If user is staff, redirect to admin
+    if request.user.is_staff:
+        return redirect('admin:index')
+    
+    # If user is client, redirect to user main space
+    if hasattr(request.user, 'client'):
+        return redirect('user_main_space')
 
 ####################################################################################################
 ################ LOGIN AND REGISTER VIEWS ##########################################################
@@ -96,7 +95,7 @@ def coachRegister(request):
     return render(request, 'register.html', context)
 
 ####################################################################################################
-################ USER PRIVETE VIEWS ################################################################
+################ USER PRIVATE VIEWS ################################################################
 ####################################################################################################
 
 # Login required views
@@ -230,7 +229,7 @@ class UserOnlineTrainingView(TemplateView):
         
         context = self.get_context_data()
         context['client'] = client
-        return render(request, 'user_online_training.html', context)
+        return render(request, 'private/user_online_trainings.html', context)
     
     def post(self, request, *args, **kwargs):
         # Search the client
@@ -238,4 +237,4 @@ class UserOnlineTrainingView(TemplateView):
         
         context = self.get_context_data()
         context['client'] = client
-        return render(request, 'private/user_online_training.html', context)
+        return render(request, 'private/user_online_trainings.html', context)

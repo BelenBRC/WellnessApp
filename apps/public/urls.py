@@ -1,8 +1,8 @@
-from django.urls import include, path
-from apps.public.views import IndexView, login, register, coachRegister, logout, UserMainSpaceView, UserDetailView, UserCoachDetailView, UserReportsView, UserOnlineTrainingView, UserReportDetailView, new_report_view
+from django.urls import include, path # type: ignore
+from apps.public.views import index, login, register, coachRegister, logout, UserMainSpaceView, UserDetailView, UserCoachDetailView, UserReportsView, UserOnlineTrainingView, UserReportDetailView, new_report_view
 
-urlpatterns = [
-    path("", IndexView.as_view(), name="index"),
+urlpatterns = [ 
+    path("", index, name="index"),
     
     path("login/", login, name="login"),
     path("logout/", logout, name="logout"),
