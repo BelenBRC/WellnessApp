@@ -1,17 +1,73 @@
 {% extends "base.html" %}
+{% load static %}
+{% load widget_tweaks %}
 
-{% block title %} Registrarte {% endblock %}
+{% block title %} Registro {% endblock %}
 
 {% block content %}
-    <h2>Registrarse</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_div }}
-        <br>
-        <button type="submit">Regístrate</button>
-    </form>
-    <p class="text-danger">{% if error %}{{ error }}{% endif %}</p>
-    <br>
-    <p>¿Ya tienes cuenta? <a href="{% url 'login' %}">Iniciar sesión</a></p>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 d-flex align-items-center justify-content-center bg-info rounded vh-100">
+                <img src="{% static 'images/body-removebg-preview.png' %}" alt="Imagen corporativa" class="img-fluid mx-auto d-block ">
+            </div>
+            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                <div class="card border-secondary text-center p-4 align-items-center">
+                    <h2 class="card-title text-center p-3" style="color: var(--color2); text-shadow: 1px 1px var(--color4)">¡Bienvenido!</h2>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text material-symbols-outlined" id="arroba" style="cursor: default;">person</span>
+                                {% render_field form.username field_class="form-control" placeholder='Nombre de usuario' aria_label='Nombre de usuario' aria_describedby="arroba" %}
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text material-symbols-outlined" id="password" style="cursor: default;">password</span>
+                                {% render_field form.password1 field_class="form-control" placeholder='Contraseña' aria_label='Contraseña' aria_describedby="password" %}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text material-symbols-outlined" id="password" style="cursor: default;">password_2</span>
+                                {% render_field form.password2 field_class="form-control" placeholder='Repita la contraseña' aria_label='Contraseña' aria_describedby="password" %}
+                            </div>
+                        </div>
+
+                        <!-- Help for password -->
+                        <div class="container form-text text-start m-0 pb-3">
+                            <div>
+                                La contraseña debe tener al menos 8 caracteres. 
+                            </div>
+                            <div>
+                                No puede ser totalmente numérica.
+                            </div>
+                            <div> 
+                                No puede ser demasiado común. 
+                            </div>
+                            <div>
+                                No puede parecerse a otros datos personales.
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Registrar</button>
+                        </div>
+                    </form>
+                    {% if form.errors %}
+                        <div class="control-group error m-3 text-start">
+                            {%for field in form %}
+                                {%if field.errors %}
+                                    <p class="text-danger m-0">{{ field.errors.as_text }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <p class="p-1">¿Ya tienes una cuenta? <a href="{% url 'login' %}" style="text-decoration: none;">Iniciar sesión</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock content %}
