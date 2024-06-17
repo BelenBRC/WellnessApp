@@ -30,7 +30,7 @@ urlpatterns = [
     
     path('api/', include(router.urls)),
     
-    path('docs/', include_docs_urls(title='Wellness API', public=False)),
+    path('docs/', include_docs_urls(title='Wellness exercises API', public=False)),
 ]
 
 # Static files (CSS, JavaScript, Images)
