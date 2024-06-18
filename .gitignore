@@ -129,6 +129,12 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+.env.dev
+.env.prod 
+.env.prod.db
+.my_pgpass
+.pg_service.conf
+commands.txt
 
 # Spyder project settings
 .spyderproject
