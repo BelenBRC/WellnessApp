@@ -67,3 +67,7 @@ class Client(models.Model):
     
     def __str__(self):
         return self.full_name
+    
+    @property
+    def email(self):
+        return self.user.email

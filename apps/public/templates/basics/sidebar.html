@@ -1,0 +1,58 @@
+<!-- User card -->
+<div class="row rounded-2 border border-secondary-subtle m-1 p-1 mb-4" style="background-color: #dee2e6;">
+    <div class="col-2">
+        <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle">
+    </div>
+    <div class="col-10 ps-4">
+        <div>{{ client }}</div>
+        <div>{{ client.user.email }}</div>
+    </div>
+</div>
+
+<!-- Nav -->
+<ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item align-middle">
+        <a class="nav-link link-secondary" href="{% url 'user_main_space' %}">
+            <span class="material-symbols-outlined">
+                grid_view
+            </span>
+            <span>Panel principal</span>
+        </a>
+    </li>
+    <li class="nav-item align-middle">
+        <a class="nav-link link-secondary" href="{% url 'user_online_trainings' pk=client.id %}">
+            <span class="material-symbols-outlined">
+                fitness_center
+            </span>
+            <span>Entrenamientos</span>
+        </a>
+    </li>
+    <li class="nav-item align-middle">
+        <a class="nav-link link-secondary" href="{% url 'user_reports' pk=client.id %}">
+            <span class="material-symbols-outlined">
+                fact_check
+            </span>
+            <span>Informes</span>
+        </a>
+    </li>
+    <li class="nav-item align-middle">
+        <a class="nav-link link-secondary" href="{% url 'user_detail' pk=client.id %}">
+            <span class="material-symbols-outlined">
+                person
+            </span>
+            <span>Perfil</span>
+        </a>
+    </li>
+</ul>
+<hr>
+<ul class="nav nav-pills flex-column mb-auto">
+    <li class="nav-item align-middle">
+        <a class="nav-link link-secondary" href="{% url 'logout' %}">
+            <span class="material-symbols-outlined">
+                logout
+            </span>
+            <span>Cerrar sesión</span>
+        </a>
+    </li>
+</ul>
+        
