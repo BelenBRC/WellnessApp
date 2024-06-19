@@ -23,13 +23,13 @@
                         <!-- TODO: eliminar este -->
                         <div class="col-lg-4 col-md-6">
                             <div class="mb-3">
-                                {% include "private/elements/pill.html" with title='Reporte 23' date='20.03.2024' %}
+                                {% include "private/elements/l_pill.html" with title='Reporte 23' date='20.03.2024' %}
                             </div>
                         </div>
                         {% for report in reports %}
                             <div class="col-lg-4 col-md-6">
                                 <div class="mb-3">
-                                    {% include "private/elements/pill.html" with title=report date=report.date %}
+                                    {% include "private/elements/l_pill.html" with title=report date=report.date %}
                                 </div>
                             </div>
                         {% endfor %}
