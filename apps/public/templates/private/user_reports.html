@@ -1,29 +1,41 @@
-{% extends "base.html" %}
+{% extends "private/client_base.html" %}
+{% load static %}
 
-{% block title %} {{ title }} | {{ client.name }} {% endblock %}
+{% block title %} Reportes | {{ client.name }} {% endblock %}
 
-{% block content %}
-    <h2>{{ title }}</h2>
+{% block panel %}
+    <div class="container h-100">
+        <div class="row">
 
-    <!-- Button for new report -->
-    <a href="{% url 'new_report' client.id %}"><button>Nuevo reporte</button></a>
+            <div class="container rounded mb-5" style="height: 25vh;">
+                <img src="{% static 'images/gray-body-slogan.jpg' %}" class="img-fluid w-100 h-100 rounded" style="object-fit: cover; object-position: center 60%;" alt="...">
+                <div class="position-absolute start-50 translate-middle rounded p-5 pt-3 pb-3 text-center">
+                    <!-- TODO: cambiar al último-->
+                    <a class="btn btn-primary" href="{% url 'new_report' client.id %}">Nuevo reporte</a>
+                </div>
+            </div>
 
-    {% if reports %}
-        {# List of the report links to detail view #}
-        <ul>
-            {% for report in reports %}
-                <li><a href="{% url 'report_detail' client.id report.id %}">{{ report }}</a></li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>No hay reportes</p>
-    {% endif %}
-
-    <br>
-    <!-- Buttons to trainer detail, online trainings and reports -->
-    <a href="{% url 'user_detail' client.id %}"><button>Mis datos</button></a>
-    <a href="{% url 'coach' client.coach.id %}"><button>Mi entrenador</button></a>
-    <a href="{% url 'user_reports' client.id %}"><button>Mis reportes</button></a>
-    <a href="{% url 'user_online_trainings' client.id %}"><button>Mis entrenamientos</button></a>
-    <br>
-{% endblock content %}
+            <div class="container">
+                <h4 class="pt-3">Historial de reportes</h4>
+                <div class="row">
+                    <!-- TODO: eliminar este -->
+                    <div class="col-lg-4 col-md-6">
+                        <div class="mb-3">
+                            {% include "private/elements/l_pill.html" with image="body-slogan-removebg-preview.png" title='Reporte 21' date='02.03.2024' %}
+                        </div>
+                        <div class="mb-3">
+                            {% include "private/elements/l_pill.html" with title='Reporte 21' date='02.03.2024' %}
+                        </div>
+                    </div>
+                    {% for report in reports %}
+                        <div class="col-lg-4 col-md-6">
+                            <div class="mb-3">
+                                {% include "private/elements/l_pill.html" with title=report date=report.date %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

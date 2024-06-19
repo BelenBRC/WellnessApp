@@ -41,7 +41,7 @@
                 <!-- TODO: eliminar este -->
                 {% include "private/elements/pill.html" with image="body-slogan-removebg-preview.png" title='Hola!' caption='Deporte' date='02.03.2024' %}
                 {% for training in trainings %}
-                    {% include "elements/pill.html" with image=training.image title=training.title caption=training.description date=training.date %}
+                    {% include "private/elements/pill.html" with image=training.image title=training.title caption=training.description date=training.date %}
                 {% endfor %}
             </div>
         </div>

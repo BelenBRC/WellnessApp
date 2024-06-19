@@ -9,12 +9,9 @@
 
             <div class="container rounded mb-5" style="height: 25vh;">
                 <img src="{% static 'images/gray-body-slogan.jpg' %}" class="img-fluid w-100 h-100 rounded" style="object-fit: cover; object-position: center 60%;" alt="...">
-                <div class="position-absolute start-50 translate-middle rounded p-5 pt-3 pb-3 text-center" style="background-color: #cedada">
-                    <p class="fs-4 fw-medium">¡Hola, {{client}}!</p>
-                    <div class="text-center">
+                <div class="position-absolute start-50 translate-middle rounded p-5 pt-3 pb-3 text-center">
                         <!-- TODO: cambiar al último-->
-                        <a class="btn btn-primary" href="{% url 'user_online_trainings' client.id %}">Accede a tu entrenamiento</a>
-                    </div>
+                        <a class="btn btn-primary" href="{% url 'user_online_trainings' client.id %}">Último entrenamiento</a>
                 </div>
             </div>
 
@@ -30,7 +27,7 @@
                     {% for training in trainings %}
                         <div class="col-lg-4 col-md-6">
                             <div class="mb-3">
-                                {% include "elements/pill.html" with image=training.image title=training.title caption=training.description date=training.date %}
+                                {% include "private/elements/pill.html" with image=training.image title=training.title caption=training.description date=training.date %}
                             </div>
                         </div>
                     {% endfor %}
