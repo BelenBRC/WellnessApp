@@ -140,6 +140,10 @@ class UserDetailView(TemplateView):
         form = ClientEditForm(instance=client)
         context['form'] = form
         
+        # Get the reports
+        reports = Report.objects.filter(client=client)
+        context['reports'] = reports
+        
         return context
     
     # Form to edit the client

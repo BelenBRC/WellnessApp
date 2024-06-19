@@ -1,41 +1,103 @@
-{% extends "base.html" %}
+{% extends "private/client_base.html" %}
+{% load static %}
 
-{% block title %} {{ title }} | {{ client.name }} {% endblock %}
+{% block title %} Reportes | {{ report }} | {{ client }} {% endblock %}
 
-{% block content %}
-    <h2>{{ title }}|{{ report }}</h2>
+{% block panel %}
+    <div class="container h-100 rounded" style="background-color: #cedada">
+        <h4 class="mb-3">{{ report }}</h4>
 
-    {% if report %}
-        <!-- Report data -->
-        <p><strong>Fecha:</strong> {{ report.date }}</p>
-        <p><strong>Peso:</strong> {{ report.weight }} kg</p>
-        <!-- 1-10 answers -->
-        <p><strong>Cumplimiento entrenamiento:</strong> {{ report.training_compliance }}</p>
-        <p><strong>Satisfacción entrenamiento:</strong> {{ report.training_satisfaction }}</p>
-        <p><strong>Cumplimiento dieta:</strong> {{ report.diet_compliance }}</p>
-        <p><strong>Satisfacción dieta:</strong> {{ report.diet_satisfaction }}</p>
-        <!-- Text answers -->
-        <p><strong>Cambios en la dieta:</strong> {{ report.diet_changes }}</p>
-        <p><strong>Observaciones entrenamiento:</strong> {{ report.training_comments }}</p>
-        <p><strong>Otras Observaciones:</strong> {{ report.comments }}</p>
-        <!-- Report image -->
-        {# Front picture #}
-        {% if report.front_picture %}
-            <p><strong>Foto frontal:</strong></p>
-            <img src="{{ report.front_picture.url }}" alt="Front picture" style="width: 50%; height: 50%;">
+        {% if report %}
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="mt-3">
+                        <p><strong> {{ report.weight }} kg</strong></p>
+                    </div>
+                    <hr>
+                    <div class="mt-3 row">
+                        <p> Cumplimiento entrenamiento:</p>
+                        <div class="col-10">
+                            <input type="range" class="form-range" id="trainingComplianceRange" min="0" max="10" value="{{ report.training_compliance }}" disabled>
+                        </div>
+                        <div class="col-2">
+                            <span id="trainingComplianceValue">{{ report.training_compliance }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 row">
+                        <p> Satisfacción entrenamiento:</p>
+                        <div class="col-10">
+                            <input type="range" class="form-range" id="trainingSatisfactionRange" min="0" max="10" value="{{ report.training_satisfaction }}" disabled>
+                        </div>
+                        <div class="col-2">
+                            <span id="trainingSatisfactionValue">{{ report.training_satisfaction }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 row">
+                        <p> Cumplimiento dieta:</p>
+                        <div class="col-10">
+                            <input type="range" class="form-range" id="dietComplianceRange" min="0" max="10" value="{{ report.diet_compliance }}" disabled>
+                        </div>
+                        <div class="col-2">
+                            <span id="dietComplianceValue">{{ report.diet_compliance }}</span>
+                        </div>
+                    </div>
+                    <div class="mt-3 row">
+                        <p> Satisfacción dieta:</p>
+                        <div class="col-10">
+                            <input type="range" class="form-range" id="dietSatisfactionRange" min="0" max="10" value="{{ report.diet_satisfaction }}" disabled>
+                        </div>
+                        <div class="col-2">
+                            <span id="dietSatisfactionValue">{{ report.diet_satisfaction }}</span>
+                        </div>
+                    </div>
+                    {% if report.diet_changes %}
+                        <hr>
+                        <div class="mt-3">
+                            <p> Cambios en la dieta:</p>
+                            <p class="rounded bg-light">{{ report.diet_changes }}</p>
+                        </div>
+                    {% endif %}
+                    {% if report.training_comments %}
+                        <hr>
+                        <div class="mt-3">
+                            <p> Observaciones entrenamiento:</p>
+                            <p class="rounded bg-light">{{ report.training_comments }}</p>
+                        </div>
+                    {% endif %}
+                    {% if report.comments %}
+                        <hr>
+                        <div class="mt-3">
+                            <p> Otras Observaciones:</p>
+                            <p class="rounded bg-light">{{ report.comments }}</p>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <div class="row mt-3">
+                        <!-- Right side picture -->
+                        {% if report.right_side_picture %}
+                            <div class="col-md-4 mt-5 p-3" style="height: 60vh">
+                                <p><strong> Foto lateral derecha:</strong></p>
+                                <img src="{{ report.right_side_picture.url }}" alt="Foto lateral derecha" class="img-fluid w-100 h-100 rounded border" style="object-fit: cover;">
+                            </div>
+                        {% endif %}
+                        <!-- Front picture -->
+                        {% if report.front_picture %}
+                            <div class="col-md-4 p-3" style="height: 60vh">
+                                <p><strong> Foto frontal:</strong></p>
+                                <img src="{{ report.front_picture.url }}" alt="Foto frontal" class="img-fluid w-100 h-100 rounded border" style="object-fit: cover;">
+                            </div>
+                        {% endif %}
+                        <!-- Left side picture -->
+                        {% if report.left_side_picture %}
+                            <div class="col-md-4 mt-5 p-3" style="height: 60vh">
+                                <p><strong> Foto lateral izquierda:</strong></p>
+                                <img src="{{ report.left_side_picture.url }}" alt="Foto lateral izquierda" class="img-fluid w-100 h-100 rounded border" style="object-fit: cover;">
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         {% endif %}
-        {# Right side picture #}
-        {% if report.right_side_picture %}
-            <p><strong>Foto lateral derecha:</strong></p>
-            <img src="{{ report.right_side_picture.url }}" alt="Right side picture" style="width: 50%; height: 50%;">
-        {% endif %}
-        {# Left side picture #}
-        {% if report.left_side_picture %}
-            <p><strong>Foto lateral izquierda:</strong></p>
-            <img src="{{ report.left_side_picture.url }}" alt="Left side picture" style="width: 50%; height: 50%;">
-        {% endif %}
-    {% endif %}
-
-    <br>
-
-{% endblock content %}
+    </div>
+{% endblock %}
