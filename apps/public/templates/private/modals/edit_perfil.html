@@ -1,0 +1,53 @@
+{% load widget_tweaks %}
+
+<!-- Modal -->
+<div class="modal fade modal-xl" id="editPerfil" tabindex="-1" aria-labelledby="editPerfilLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="editPerfilLabel">Editar perfil</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" class="row">
+                    {% csrf_token %}
+                    
+                    <div class="col-md-4">
+                        <div class="form-group mt-3">
+                            {{ form.first_name.label_tag }}
+                            {{ form.first_name }}
+                        </div>
+                        <div class="form-group mt-3">
+                            {{ form.city.label_tag }}
+                            {{ form.city }}
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="form-group mt-3">
+                            {{ form.last_name.label_tag }}
+                            {{ form.last_name }}
+                        </div>
+                        <div class="form-group mt-3">
+                            {{ form.occupation.label_tag }}
+                            {{ form.occupation }}
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-3 col-md-8">
+                        {{ form.birthdate.label_tag }}
+                        {{ form.birthdate }}
+                    </div>
+             
+                    <br>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+
+                </form>
+        </div>
+    </div>
+</div>

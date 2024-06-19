@@ -1,6 +1,9 @@
+import datetime
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
+
+from apps.client.models import Client
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='Username')
@@ -62,3 +65,23 @@ class CoachRegisterForm(UserCreationForm):
         user.is_staff = False
         
         return user
+    
+class ClientEditForm(forms.ModelForm):
+    """Form for editing the client's profile."""
+    class Meta:
+        model = Client
+        fields = ['first_name', 'last_name', 'city', 'occupation', 'birthdate']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        for field in self.fields:
+            self.fields[field].widget.attrs['class'] = 'form-control'
+            # Set help text as placeholder
+            self.fields[field].widget.attrs['placeholder'] = self.fields[field].help_text
+            if field == 'birthdate':
+                self.fields[field].widget.attrs['placeholder'] += ' (dd/mm/yyyy)'
+                # Set min value to 1900-01-01
+                self.fields[field].widget.attrs['min'] = '1900-01-01'
+                # Set max value to today
+                self.fields[field].widget.attrs['max'] = datetime.date.today().strftime('%Y-%m-%d')

@@ -8,7 +8,7 @@ from django.views.generic import TemplateView # type: ignore
 
 from apps.client.models import Client
 from apps.coach.models import Coach
-from apps.public.forms.loginforms import ClientRegisterForm, CoachRegisterForm, LoginForm
+from apps.public.forms.loginforms import ClientEditForm, ClientRegisterForm, CoachRegisterForm, LoginForm
 from apps.reports.forms import NewReportForm
 from apps.reports.models import Report
 
@@ -127,7 +127,31 @@ class UserDetailView(TemplateView):
         client = Client.objects.filter(user=self.request.user).first()
         context['client'] = client
         
+        # Get the form
+        form = ClientEditForm(instance=client)
+        context['form'] = form
+        
         return context
+    
+    # Form to edit the client
+    def post(self, request, *args, **kwargs):
+        # Search the client
+        client = Client.objects.filter(user=self.request.user).first()
+        context = self.get_context_data()
+        context['client'] = client
+        
+        # Get the form
+        form = ClientEditForm(request.POST, instance=client)
+        if form.is_valid():
+            form.save()
+            form = ClientEditForm(instance=client)
+            context['form'] = form
+            context['success'] = 'Cambios guardados correctamente.'
+        else:
+            context['error'] = form.errors
+            context['form'] = form
+            
+        return render(request, 'private/user_detail.html', context) 
     
 # User coach detail
 @method_decorator(login_required, name='dispatch')
