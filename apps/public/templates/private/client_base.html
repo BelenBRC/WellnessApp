@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row vh-100">
+            <!-- Left nav bar -->
+            <div class="col-md-2 d-flex flex-column flex-shrink-0 p-3">
+                {% include "basics/sidebar.html" %}
+            </div>
+            <!-- Right content -->
+            <div class="col-md-10">
+                {% block panel %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

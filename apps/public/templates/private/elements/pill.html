@@ -1,0 +1,15 @@
+<!-- This component is a rounded element with a left rounded image, title, caption and date -->
+{% load static %}
+
+<div class="d-flex align-items-start bg-dark rounded-pill p-3 m-1">
+    {% if image %}
+        <img src="{% static 'images/'|add:image %}" class="rounded-circle img-fluid my-auto me-3 d-block bg-light" width="60"  alt="...">
+    {% else %}
+        <img src={% static "images/gray-body-slogan-removebg-preview.png" %} class="rounded-circle img-fluid my-auto me-3 d-block bg-light" width="60" height="60" alt="...">
+    {% endif %}
+    <div class="text-light ms-2">
+        <p class="fw-bold m-0" style="color: #71CED9">{{ title }}</p>
+        <p class="fs-6 text-wrap m-0">{{ caption }}</p>
+        <small class="m-0" style="color: #ced4da">{{ date }}</small>
+    </div>
+</div>

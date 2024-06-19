@@ -1,16 +1,49 @@
-{% extends "base.html" %}
+{% extends "private/client_base.html" %}
+{% load static %}
 
 {% block title %} Inicio | {{ client }} {% endblock %}
 
-{% block content %}
-    <h2>Bienvenido, {{ client }}</h2>
-
-    <p>Este es tu espacio personal. Aquí podrás ver tus datos, tus pedidos y tus favoritos.</p>
-    <br>
-    <!-- Buttons to trainer detail, online trainings and reports -->
-    <a href="{% url 'user_detail' client.id %}"><button>Mis datos</button></a>
-    <a href="{% url 'coach' client.coach.id %}"><button>Mi entrenador</button></a>
-    <a href="{% url 'user_reports' client.id %}"><button>Mis reportes</button></a>
-    <a href="{% url 'user_online_trainings' client.id %}"><button>Mis entrenamientos</button></a>
-    <br>
-{% endblock content %}
+{% block panel %}
+    <div class="container h-100">
+        <div class="row">
+            <div class="col-md-8 mt-3">
+                <div class="container rounded mb-5" style="height: 30vh;">
+                    <img src="{% static 'images/gray-body-slogan.jpg' %}" class="img-fluid w-100 h-100 rounded" style="object-fit: cover; object-position: center 65%;" alt="...">
+                    <div class="position-absolute start-50 translate-middle rounded p-5 pt-3 pb-3 text-center" style="background-color: #cedada">
+                        <p class="fs-4 fw-medium">¡Hola, {{client}}!</p>
+                        <div class="text-center">
+                            <!-- TODO: cambiar al último-->
+                            <a class="btn btn-primary" href="{% url 'user_online_trainings' client.id %}">Accede a tu entrenamiento</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <h4 class="pt-3">Últimos reportes</h4>
+                    <div class="row">
+                        <!-- TODO: eliminar este -->
+                        <div class="col-lg-4 col-md-6">
+                            <div class="mb-3">
+                                {% include "private/elements/pill.html" with title='Reporte 23' date='20.03.2024' %}
+                            </div>
+                        </div>
+                        {% for report in reports %}
+                            <div class="col-lg-4 col-md-6">
+                                <div class="mb-3">
+                                    {% include "private/elements/pill.html" with title=report date=report.date %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-3">
+                <h4>Historial de entrenamientos</h4>
+                <!-- TODO: eliminar este -->
+                {% include "private/elements/pill.html" with image="body-slogan-removebg-preview.png" title='Hola!' caption='Deporte' date='02.03.2024' %}
+                {% for training in trainings %}
+                    {% include "elements/pill.html" with image=training.image title=training.title caption=training.description date=training.date %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
