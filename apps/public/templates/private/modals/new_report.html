@@ -1,0 +1,142 @@
+{% load widget_tweaks %}
+
+<!-- Modal -->
+<div class="modal fade modal-xl" id="newReport" tabindex="-1" aria-labelledby="newReportLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="newReportLabel">Nuevo reporte</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body row">
+                    <div class="col-md-4">
+                        <div class="form-group mt-3 row">
+                            <div class="col-md-4">
+                                {{ form.weight.label_tag }}
+                            </div>
+                            <div class="col-md-8">
+                                {{ form.weight }}
+                            </div>
+                        </div>
+                        <div class="form-group mt-5 row">
+                            {{ form.training_compliance.label_tag }}
+                            <div style="display: none">
+                                {{ form.training_compliance }}
+                            </div>
+                            <div class="col-10">
+                                <input type="range" class="form-range" id="trainingComplianceRange" min="0" max="10">
+                            </div>
+                            <div class="col-2">
+                                <span id="trainingComplianceValue">0</span>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3 row">
+                            {{ form.training_satisfaction.label_tag }}
+                            <div style="display: none">
+                                {{ form.training_satisfaction }}
+                            </div>
+                            <div class="col-10">
+                                <input type="range" class="form-range" id="trainingSatisfactionRange" min="0" max="10">
+                            </div>
+                            <div class="col-2">
+                                <span id="trainingSatisfactionValue">0</span>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3 row">
+                            {{ form.diet_compliance.label_tag }}
+                            <div style="display: none">
+                                {{ form.diet_compliance }}
+                            </div>
+                            <div class="col-10">
+                                <input type="range" class="form-range" id="dietComplianceRange" min="0" max="10">
+                            </div>
+                            <div class="col-2">
+                                <span id="dietComplianceValue">0</span>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3 row">
+                            {{ form.diet_satisfaction.label_tag }}
+                            <div style="display: none">
+                                {{ form.diet_satisfaction }}
+                            </div>
+                            <div class="col-10">
+                                <input type="range" class="form-range" id="dietSatisfactionRange" min="0" max="10">
+                            </div>
+                            <div class="col-2">
+                                <span id="dietSatisfactionValue">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group mt-3">
+                            {{ form.diet_changes.label_tag }}
+                            {{ form.diet_changes }}
+                        </div>
+                        <div class="form-group mt-3">
+                            {{ form.training_observations.label_tag }}
+                            {{ form.training_observations }}
+                        </div>
+                        <div class="form-group mt-3">
+                            {{ form.other_observations.label_tag }}
+                            {{ form.other_observations }}
+                        </div>
+                    </div>
+                    <div class="col-md-4 mt-3">
+                        <div class="form-group">
+                            {{ form.front_picture.label_tag }}
+                            {{ form.front_picture }}
+                        </div>
+                        <div class="form-group mt-3">
+                            {{ form.right_side_picture.label_tag }}
+                            {{ form.right_side_picture }}
+                        </div>
+                        <div class="form-group mt-3">
+                            {{ form.left_side_picture.label_tag }}
+                            {{ form.left_side_picture }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const trainingComplianceRange = document.getElementById('trainingComplianceRange');
+    const trainingCompliance = document.querySelector('input[name="training_compliance"]');
+
+    trainingComplianceRange.addEventListener('input', () => {
+        trainingCompliance.value = trainingComplianceRange.value;
+        trainingComplianceValue.textContent = trainingComplianceRange.value;
+    });
+
+    const trainingSatisfactionRange = document.getElementById('trainingSatisfactionRange');
+    const trainingSatisfaction = document.querySelector('input[name="training_satisfaction"]');
+
+    trainingSatisfactionRange.addEventListener('input', () => {
+        trainingSatisfaction.value = trainingSatisfactionRange.value;
+        trainingSatisfactionValue.textContent = trainingSatisfactionRange.value;
+    });
+
+    const dietComplianceRange = document.getElementById('dietComplianceRange');
+    const dietCompliance = document.querySelector('input[name="diet_compliance"]');
+
+    dietComplianceRange.addEventListener('input', () => {
+        dietCompliance.value = dietComplianceRange.value;
+        dietComplianceValue.textContent = dietComplianceRange.value;
+    });
+
+    const dietSatisfactionRange = document.getElementById('dietSatisfactionRange');
+    const dietSatisfaction = document.querySelector('input[name="diet_satisfaction"]');
+
+    dietSatisfactionRange.addEventListener('input', () => {
+        dietSatisfaction.value = dietSatisfactionRange.value;
+        dietSatisfactionValue.textContent = dietSatisfactionRange.value;
+    });
+</script>

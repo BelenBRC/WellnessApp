@@ -189,7 +189,34 @@ class UserReportsView(TemplateView):
         reports = Report.objects.filter(client=client)
         context['reports'] = reports
         
+        # Get the form
+        form = NewReportForm()
+        context['form'] = form
+        
         return context
+    
+    # Form to create a new report
+    def post(self, request, *args, **kwargs):
+        # Search the client
+        client = Client.objects.filter(user=self.request.user).first()
+        context = self.get_context_data()
+        context['client'] = client
+        
+        # Get the form
+        form = NewReportForm(request.POST, request.FILES)
+        if form.is_valid():
+            report = form.save(commit=False)
+            report.client = client
+            report.date = datetime.date.today()
+            report.save()
+            
+            # Redirect to the report detail, with the new report
+            return redirect('report_detail', pk=client.id, id_report=report.id)
+        else:
+            context['form'] = form
+            context['error'] = form.errors
+            
+        return render(request, 'private/user_reports.html', context)
 
 @method_decorator(login_required, name='dispatch')
 class UserReportDetailView(TemplateView):
