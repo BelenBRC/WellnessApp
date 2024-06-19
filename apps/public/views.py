@@ -11,6 +11,7 @@ from apps.coach.models import Coach
 from apps.public.forms.loginforms import ClientEditForm, ClientRegisterForm, CoachRegisterForm, LoginForm
 from apps.reports.forms import NewReportForm
 from apps.reports.models import Report
+from apps.training.models import OnlineTraining
 
 ####################################################################################################
 def index(request):
@@ -111,6 +112,14 @@ class UserMainSpaceView(TemplateView):
         client = Client.objects.filter(user=self.request.user).first()
         context['client'] = client
         
+        # Search the reports
+        reports = Report.objects.filter(client=client)
+        context['reports'] = reports
+        
+        # Search the online trainings
+        trainings = OnlineTraining.objects.filter(client=client)
+        context['trainings'] = trainings
+        
         return context
 
 # User detail
@@ -153,25 +162,6 @@ class UserDetailView(TemplateView):
             
         return render(request, 'private/user_detail.html', context) 
     
-# User coach detail
-@method_decorator(login_required, name='dispatch')
-class UserCoachDetailView(TemplateView):
-    model = Coach
-    template_name = 'private/coach_detail.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Entrenador'
-        
-        # Search the client
-        client = Client.objects.filter(user=self.request.user).first()
-        context['client'] = client
-        
-        # Search the coach
-        coach = Coach.objects.filter(id=self.kwargs['pk']).first()
-        context['coach'] = coach
-        return context
-    
 # User reports
 @method_decorator(login_required, name='dispatch')
 class UserReportsView(TemplateView):
@@ -211,7 +201,7 @@ class UserReportsView(TemplateView):
             report.save()
             
             # Redirect to the report detail, with the new report
-            return redirect('report_detail', pk=client.id, id_report=report.id)
+            return redirect('report_detail', id_report=report.id)
         else:
             context['form'] = form
             context['error'] = form.errors
@@ -228,7 +218,7 @@ class UserReportDetailView(TemplateView):
         context['title'] = 'Informe'
         
         # Search the client
-        client = Client.objects.filter(id=kwargs['pk']).first()
+        client = Client.objects.filter(user=self.request.user).first()
         context['client'] = client
         print(client)
         
@@ -240,7 +230,7 @@ class UserReportDetailView(TemplateView):
         
         return context
     
-def new_report_view(request, pk):
+def new_report_view(request):
     # If the user is not authenticated, redirect to login
     if not request.user.is_authenticated:
         return redirect('login')
@@ -254,12 +244,12 @@ def new_report_view(request, pk):
         form = NewReportForm(request.POST, request.FILES)
         if form.is_valid():
             report = form.save(commit=False)
-            report.client = Client.objects.filter(id=pk).first()
+            report.client = Client.objects.filter(user=request.user).first()
             report.date = datetime.date.today()
             report.save()
             
             # Redirect to the report detail, with the new report
-            return redirect('report_detail', pk=report.client.id, id_report=report.id)
+            return redirect('report_detail', id_report=report.id)
         else:
             context['form'] = form
             context['error'] = form.errors

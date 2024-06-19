@@ -1,5 +1,5 @@
 from django.urls import include, path # type: ignore
-from apps.public.views import index, login, register, coachRegister, logout, UserMainSpaceView, UserDetailView, UserCoachDetailView, UserReportsView, UserOnlineTrainingView, UserReportDetailView, new_report_view
+from apps.public.views import index, login, register, coachRegister, logout, UserMainSpaceView, UserDetailView, UserReportsView, UserOnlineTrainingView, UserReportDetailView, new_report_view
 
 urlpatterns = [ 
     path("", index, name="index"),
@@ -15,7 +15,7 @@ urlpatterns = [
 urlpatterns += [
     path("area_personal/", UserMainSpaceView.as_view(), name="user_main_space"),
     path(
-        "area_personal/<pk>/",
+        "area_personal/",
         include(
             [
                 path("perfil/", UserDetailView.as_view(), name="user_detail"), 
@@ -26,5 +26,4 @@ urlpatterns += [
             ]
         ), 
     ),
-    path("entrenador/<pk>", UserCoachDetailView.as_view(), name="coach"),
 ]

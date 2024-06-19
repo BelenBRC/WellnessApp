@@ -1,7 +1,7 @@
 <!-- This component is a rounded element with a left optional rounded image, title and date -->
 {% load static %}
 
-<div class="d-flex align-items-start bg-light rounded-pill border p-3 m-3" style="border-color: #71CED9 !important">
+<div class="d-flex align-items-start bg-light rounded-pill border p-3 m-3 position-relative" style="border-color: #71CED9 !important">
     {% if image %}
         <img src="{% static 'images/'|add:image %}" class="rounded-circle img-fluid my-auto me-3 d-block bg-light" width="60"  alt="...">
     {% else %}
@@ -11,4 +11,5 @@
         <p class="fw-bold m-0" style="color: #71CED9">{{ title }}</p>
         <small class="m-0 text-secondary">{{ date }}</small>
     </div>
+    <a href="{% url 'report_detail' id_report=id %}" class="stretched-link"></a>
 </div>

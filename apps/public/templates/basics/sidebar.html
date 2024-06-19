@@ -10,7 +10,7 @@
         </a>
     </li>
     <li class="nav-item align-middle">
-        <a class="nav-link link-secondary" href="{% url 'user_online_trainings' pk=client.id %}">
+        <a class="nav-link link-secondary" href="{% url 'user_online_trainings' %}">
             <span class="material-symbols-outlined">
                 fitness_center
             </span>
@@ -18,7 +18,7 @@
         </a>
     </li>
     <li class="nav-item align-middle">
-        <a class="nav-link link-secondary" href="{% url 'user_reports' pk=client.id %}">
+        <a class="nav-link link-secondary" href="{% url 'user_reports' %}">
             <span class="material-symbols-outlined">
                 fact_check
             </span>
@@ -26,7 +26,7 @@
         </a>
     </li>
     <li class="nav-item align-middle">
-        <a class="nav-link link-secondary" href="{% url 'user_detail' pk=client.id %}">
+        <a class="nav-link link-secondary" href="{% url 'user_detail' %}">
             <span class="material-symbols-outlined">
                 person
             </span>
@@ -36,7 +36,7 @@
 </ul>
 <hr>
 <!-- User card -->
-<div class="row rounded-2 border m-1 p-1 mb-4" style="background-color: #cedada;">
+<div class="row rounded-2 border m-1 p-1 mb-4 position-relative" style="background-color: #cedada;">
     <div class="col-2">
         <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle">
     </div>
@@ -44,6 +44,7 @@
         <div>{{ client }}</div>
         <div>{{ client.user.email }}</div>
     </div>
+    <a href="{% url 'user_detail' %}" class="stretched-link"></a>
 </div>
 <ul class="nav nav-pills flex-column mb-auto">
     <li class="nav-item align-middle">

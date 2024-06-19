@@ -1,7 +1,7 @@
 <!-- This component is a rounded element with a left rounded image, title, caption and date -->
 {% load static %}
 
-<div class="d-flex align-items-start bg-dark rounded-pill p-3 m-1">
+<div class="d-flex align-items-start bg-dark rounded-pill p-3 m-1 position-relative">
     {% if image %}
         <img src="{% static 'images/'|add:image %}" class="rounded-circle img-fluid my-auto me-3 d-block bg-light" width="60"  alt="...">
     {% else %}
@@ -12,4 +12,5 @@
         <p class="fs-6 text-wrap m-0">{{ caption }}</p>
         <small class="m-0" style="color: #ced4da">{{ date }}</small>
     </div>
+    {% comment %} <a href="{% url 'report_detail' id_report=id %}" class="stretched-link"></a> {% endcomment %}
 </div>
