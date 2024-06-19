@@ -12,8 +12,7 @@
                     <div class="position-absolute start-50 translate-middle rounded p-5 pt-3 pb-3 text-center" style="background-color: #cedada">
                         <p class="fs-4 fw-medium">¡Hola, {{client}}!</p>
                         <div class="text-center">
-                            <!-- TODO: cambiar al último-->
-                            <a class="btn btn-primary" href="{% url 'user_online_trainings' %}">Accede a tu entrenamiento</a>
+                            <a class="btn btn-primary" href="{% url 'training_detail' id_training=latest_training.id %}">Accede a tu entrenamiento</a>
                         </div>
                     </div>
                 </div>
@@ -32,10 +31,8 @@
             </div>
             <div class="col-md-4 mt-3">
                 <h4>Historial de entrenamientos</h4>
-                <!-- TODO: eliminar este -->
-                {% include "private/elements/pill.html" with image="body-slogan-removebg-preview.png" title='Hola!' caption='Deporte' date='02.03.2024' %}
                 {% for training in trainings %}
-                    {% include "private/elements/pill.html" with image=training.image title=training.title caption=training.description date=training.date %}
+                    {% include "private/elements/pill.html" with image=training.image title=training caption=training.description date=training.date id=training.id %}
                 {% endfor %}
             </div>
         </div>

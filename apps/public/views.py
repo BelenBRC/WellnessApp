@@ -120,6 +120,14 @@ class UserMainSpaceView(TemplateView):
         trainings = OnlineTraining.objects.filter(client=client)
         context['trainings'] = trainings
         
+        # Latest training
+        latest_training = trainings.last()
+        for training in trainings:
+            if training.date > latest_training.date:
+                latest_training = training
+        
+        context['latest_training'] = latest_training
+        
         return context
 
 # User detail
@@ -224,11 +232,8 @@ class UserReportDetailView(TemplateView):
         # Search the client
         client = Client.objects.filter(user=self.request.user).first()
         context['client'] = client
-        print(client)
         
         # Search the report
-        report = Report.objects.all()
-        print(report)
         report = Report.objects.filter(id=kwargs['id_report']).first()
         context['report'] = report
         
@@ -274,6 +279,19 @@ class UserOnlineTrainingView(TemplateView):
         
         context = self.get_context_data()
         context['client'] = client
+        
+        # Search the online trainings
+        trainings = OnlineTraining.objects.filter(client=client)
+        context['trainings'] = trainings
+            
+        # Latest training
+        latest_training = trainings.last()
+        for training in trainings:
+            if training.date > latest_training.date:
+                latest_training = training
+        
+        context['latest_training'] = latest_training
+        
         return render(request, 'private/user_online_trainings.html', context)
     
     def post(self, request, *args, **kwargs):
@@ -283,3 +301,26 @@ class UserOnlineTrainingView(TemplateView):
         context = self.get_context_data()
         context['client'] = client
         return render(request, 'private/user_online_trainings.html', context)
+    
+@method_decorator(login_required, name='dispatch')
+class UserOnlineTrainingDetailView(TemplateView):
+    model = OnlineTraining
+    template_name = 'private/training_detail.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Entrenamiento online'
+        
+        # Search the client
+        client = Client.objects.filter(user=self.request.user).first()
+        context['client'] = client
+        
+        # Search the online training
+        training = OnlineTraining.objects.filter(id=kwargs['id_training']).first()
+        context['training'] = training
+        
+        # Get the exercises
+        exercises = training.exercises.all()
+        context['exercises'] = exercises
+        
+        return context
