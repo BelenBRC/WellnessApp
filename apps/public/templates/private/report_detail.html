@@ -57,18 +57,18 @@
                             <p class="rounded bg-light">{{ report.diet_changes }}</p>
                         </div>
                     {% endif %}
-                    {% if report.training_comments %}
+                    {% if report.training_observations %}
                         <hr>
                         <div class="mt-3">
                             <p> Observaciones entrenamiento:</p>
-                            <p class="rounded bg-light">{{ report.training_comments }}</p>
+                            <p class="rounded bg-light">{{ report.training_observations }}</p>
                         </div>
                     {% endif %}
-                    {% if report.comments %}
+                    {% if report.other_observations %}
                         <hr>
                         <div class="mt-3">
-                            <p> Otras Observaciones:</p>
-                            <p class="rounded bg-light">{{ report.comments }}</p>
+                            <p> Otras observaciones:</p>
+                            <p class="rounded bg-light">{{ report.other_observations }}</p>
                         </div>
                     {% endif %}
                 </div>
