@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', default='django-insecure-#&')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', default=True)
+DEBUG = os.environ.get('DJANGO_DEBUG', default=False)
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', ['localhost', '127.0.0.1'])
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', ['localhost', '127.0.0.1', 'mytraincoach.up.railway.app'])
 
 
 # Application definition
