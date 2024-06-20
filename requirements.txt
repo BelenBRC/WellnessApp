@@ -6,3 +6,4 @@ django-extensions==3.2.3
 coreapi==2.3.3
 Pillow==10.3.0
 gunicorn==22.0.0
+whitenoise==6.7.0
