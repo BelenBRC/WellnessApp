@@ -1,0 +1,50 @@
+:root{
+    /* Corporative colors */
+    --color1: #71CED9;
+    --color2: #63B6BF;
+    --color3: #49868C;
+    --color4: #0D0D0D;
+    --color5: #F2F2F2;
+
+    --color-primary: var(--color1);
+    --color-secondary: var(--color3);
+    --color-tertiary: var(--color2);
+    --color-dark: var(--color4);
+    --color-light: var(--color5);
+
+    --bs-primary: var(--color1);
+    --bs-secondary: var(--color3);
+
+    /* Fonts */
+    --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+    
+    /* Font sizes */
+    --font-size-1: 1.25rem;
+    --font-size-2: 1.5rem;
+    --font-size-3: 1.75rem;
+    --font-size-4: 2rem;
+    --font-size-5: 2.25rem;
+    --font-size-6: 2.5rem;
+    --font-size-7: 2.75rem;
+    --font-size-8: 3rem;
+    
+    /* Font weights */
+    --font-weight-light: 300;
+    --font-weight-normal: 400;
+    --font-weight-bold: 700;
+    
+    /* Line heights */
+    --line-height-1: 1;
+    --line-height-2: 1.25;
+    --line-height-3: 1.5;
+    --line-height-4: 1.75;
+    --line-height-5: 2;
+
+    /* Links */
+    --bs-link-color: var(--color1);
+    --bs-link-hover-color: var(--color2);
+    --bs-link-decoration: none;
+}
+
+/* Path: static/css/base.css */
